@@ -80,10 +80,9 @@ http {
 
 EOF
 
-if [ "" != "$DEBUG" ]; then
-    cat $NGINX_CONF
-fi
+[ "" != "$DEBUG" ] && cat $NGINX_CONF;
 
+mkdir -p /run/nginx/
 chown -R root:root /var/lib/nginx
 
 exec nginx -c $NGINX_CONF
