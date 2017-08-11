@@ -75,7 +75,7 @@ http {
         expires +$CACHE_PUBLIC_EXPIRATION;
     }
 
-    try_files \$uri \$uri/;
+    try_files \$uri \$uri/index.html \$uri/ =404;
 
   }
 }
