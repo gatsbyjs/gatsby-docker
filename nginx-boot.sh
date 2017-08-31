@@ -16,6 +16,12 @@ export CACHE_IGNORE=${CACHE_IGNORE:-html}
 export CACHE_PUBLIC=${CACHE_PUBLIC:-ico|jpg|jpeg|png|gif|svg|js|jsx|css|less|swf|eot|ttf|otf|woff|woff2}
 export CACHE_PUBLIC_EXPIRATION=${CACHE_PUBLIC_EXPIRATION:-1y}
 
+if [ "$TRAILING_SLASH" = false ]; then
+  REWRITE_RULE="rewrite ^(.+)/+\$ \$1 permanent"
+else
+  REWRITE_RULE="rewrite ^([^.]*[^/])\$ \$1/ permanent"
+fi
+
 # Build config
 cat <<EOF > $NGINX_CONF
 daemon              off;
@@ -75,9 +81,10 @@ http {
       add_header Cache-Control "public";
       expires +$CACHE_PUBLIC_EXPIRATION;
     }
- 
-    try_files \$uri \$uri/ \$uri/index.html index.html;
 
+    $REWRITE_RULE;
+
+    try_files \$uri \$uri/ \$uri/index.html =404;
   }
 }
 
