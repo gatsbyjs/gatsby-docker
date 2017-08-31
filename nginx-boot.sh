@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Check for variables
+export CHARSET=${CHARSET:-utf-8}
+
 export WORKER_CONNECTIONS=${WORKER_CONNECTIONS:-1024}
 export HTTP_PORT=${HTTP_PORT:-80}
 export NGINX_CONF=/etc/nginx/mushed.conf
@@ -61,21 +63,20 @@ http {
 
     index index.html;
     autoindex off;
-    charset off;
+    charset $CHARSET;
 
     error_page 404 /404.html;
 
     location ~* \.($CACHE_IGNORE)$ {
-        add_header Cache-Control "no-store";
-        expires    off;
+      add_header Cache-Control "no-store";
+      expires    off;
     }
-
     location ~* \.($CACHE_PUBLIC)$ {
-        add_header Cache-Control "public";
-        expires +$CACHE_PUBLIC_EXPIRATION;
+      add_header Cache-Control "public";
+      expires +$CACHE_PUBLIC_EXPIRATION;
     }
-
-    try_files \$uri \$uri/index.html \$uri/ =404;
+ 
+    try_files \$uri \$uri/ \$uri/index.html index.html;
 
   }
 }
