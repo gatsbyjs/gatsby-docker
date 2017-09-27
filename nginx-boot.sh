@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Check for variables
+export CHARSET=${CHARSET:-utf-8}
+
 export WORKER_CONNECTIONS=${WORKER_CONNECTIONS:-1024}
 export HTTP_PORT=${HTTP_PORT:-80}
 export NGINX_CONF=/etc/nginx/mushed.conf
@@ -13,6 +15,12 @@ export GZIP_LEVEL=${GZIP_LEVEL:-6}
 export CACHE_IGNORE=${CACHE_IGNORE:-html}
 export CACHE_PUBLIC=${CACHE_PUBLIC:-ico|jpg|jpeg|png|gif|svg|js|jsx|css|less|swf|eot|ttf|otf|woff|woff2}
 export CACHE_PUBLIC_EXPIRATION=${CACHE_PUBLIC_EXPIRATION:-1y}
+
+if [ "$TRAILING_SLASH" = false ]; then
+  REWRITE_RULE="rewrite ^(.+)/+\$ \$1 permanent"
+else
+  REWRITE_RULE="rewrite ^([^.]*[^/])\$ \$1/ permanent"
+fi
 
 # Build config
 cat <<EOF > $NGINX_CONF
@@ -61,22 +69,22 @@ http {
 
     index index.html;
     autoindex off;
-    charset off;
+    charset $CHARSET;
 
     error_page 404 /404.html;
 
     location ~* \.($CACHE_IGNORE)$ {
-        add_header Cache-Control "no-store";
-        expires    off;
+      add_header Cache-Control "no-store";
+      expires    off;
     }
-
     location ~* \.($CACHE_PUBLIC)$ {
-        add_header Cache-Control "public";
-        expires +$CACHE_PUBLIC_EXPIRATION;
+      add_header Cache-Control "public";
+      expires +$CACHE_PUBLIC_EXPIRATION;
     }
 
-    try_files \$uri \$uri/;
+    $REWRITE_RULE;
 
+    try_files \$uri \$uri/ \$uri/index.html =404;
   }
 }
 
