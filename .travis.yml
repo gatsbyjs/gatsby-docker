@@ -13,11 +13,11 @@ after_success:
 # Build and deploy
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=gatsbyjs/gatsby
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -f Dockerfile -t $REPO:$COMMIT .
-  - docker build -f Dockerfile.onbuild -t $REPO:$COMMIT-onbuild .
-  - docker tag $REPO:$COMMIT $REPO:$TAG
-  - docker tag $REPO:$COMMIT-onbuild $REPO:$TAG-onbuild
-  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
-  - docker tag $REPO:$COMMIT-onbuild $REPO:travis-$TRAVIS_BUILD_NUMBER-onbuild
+  - export TAG=`if [ "$TRAVIS_CURRENT_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_CURRENT_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$TRAVIS_COMMIT .
+  - docker build -f Dockerfile.onbuild -t $REPO:$TRAVIS_COMMIT-onbuild .
+  - docker tag $REPO:$TRAVIS_COMMIT $REPO:$TAG
+  - docker tag $REPO:$TRAVIS_COMMIT-onbuild $REPO:$TAG-onbuild
+  - docker tag $REPO:$TRAVIS_COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker tag $REPO:$TRAVIS_COMMIT-onbuild $REPO:travis-$TRAVIS_BUILD_NUMBER-onbuild
   - docker push $REPO
