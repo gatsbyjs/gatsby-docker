@@ -1,0 +1,23 @@
+sudo: required
+language: c
+services:
+  - docker
+
+script:
+// Lint
+- docker run -it --rm -v "$PWD/Dockerfile:/Dockerfile:ro" redcoolbeans/dockerlint
+- docker run -it --rm -v "$PWD/Dockerfile.onbuild:/Dockerfile:ro" redcoolbeans/dockerlint
+
+
+after_success:
+// Build and deploy
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=gatsbyjs/gatsby
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker build -f Dockerfile.onbuild -t $REPO:$COMMIT-onbuild .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT-onbuild $REPO:$TAG-onbuild
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker tag $REPO:$COMMIT-onbuild $REPO:travis-$TRAVIS_BUILD_NUMBER-onbuild
+  - docker push $REPO
