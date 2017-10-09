@@ -16,8 +16,8 @@ after_success:
   - export TAG=`if [ "$TRAVIS_CURRENT_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_CURRENT_BRANCH ; fi`
   - docker build -f Dockerfile -t $REPO:$TRAVIS_COMMIT .
   - docker build -f Dockerfile.onbuild -t $REPO:$TRAVIS_COMMIT-onbuild .
-  - docker tag $REPO:$TRAVIS_COMMIT $REPO:$TAG
-  - docker tag $REPO:$TRAVIS_COMMIT-onbuild $REPO:$TAG-onbuild
+  # - docker tag $REPO:$TRAVIS_COMMIT $REPO:$TAG
+  # - docker tag $REPO:$TRAVIS_COMMIT-onbuild $REPO:$TAG-onbuild
   - docker tag $REPO:$TRAVIS_COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
   - docker tag $REPO:$TRAVIS_COMMIT-onbuild $REPO:travis-$TRAVIS_BUILD_NUMBER-onbuild
   - docker push $REPO
