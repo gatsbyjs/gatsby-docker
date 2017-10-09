@@ -4,13 +4,13 @@ services:
   - docker
 
 script:
-// Lint
+# Lint
 - docker run -it --rm -v "$PWD/Dockerfile:/Dockerfile:ro" redcoolbeans/dockerlint
 - docker run -it --rm -v "$PWD/Dockerfile.onbuild:/Dockerfile:ro" redcoolbeans/dockerlint
 
 
 after_success:
-// Build and deploy
+# Build and deploy
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=gatsbyjs/gatsby
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
