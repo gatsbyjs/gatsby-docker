@@ -1,3 +1,5 @@
+[![Travis CI Build Status](https://travis-ci.org/gatsbyjs/gatsby-docker.svg?branch=master)](https://travis-ci.org/gatsbyjs/gatsby-docker)
+
 # gatsbyjs/gatsby
 Docker image that builds hosts a Gatsby site
 
