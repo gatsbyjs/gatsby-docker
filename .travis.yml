@@ -17,7 +17,7 @@ after_success:
   - export REPO=gatsbyjs/gatsby
   - export MAIN_TAG=`if [ "$TRAVIS_BRANCH" = "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - export ONBUILD_TAG=`if [ "$TRAVIS_BRANCH" = "master" ]; then echo "onbuild"; else echo "$MAIN_TAG-onbuild" ; fi`
-  - echo "Main tag: $MAIN_TAG \n Onbuild tag: $ONBUILD_TAG \n Commit (shorten): $COMMIT \n Branch: $TRAVIS_BRANCH \n\n"
+  - echo "Main tag - $MAIN_TAG | Onbuild - $ONBUILD_TAG | Commit (shorten) - $COMMIT | Branch - $TRAVIS_BRANCH"
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
 # Build and deploy
