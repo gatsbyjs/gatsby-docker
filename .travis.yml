@@ -8,16 +8,22 @@ script:
 - docker run -it --rm -v "$PWD/Dockerfile:/Dockerfile:ro" redcoolbeans/dockerlint
 - docker run -it --rm -v "$PWD/Dockerfile.onbuild:/Dockerfile:ro" redcoolbeans/dockerlint
 
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
 
 after_success:
-# Build and deploy
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+# Setup
   - export REPO=gatsbyjs/gatsby
-  - export MAIN_TAG=`if [ "$TRAVIS_CURRENT_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_CURRENT_BRANCH ; fi`
-  - export ONBUILD_TAG=`if [ "$TRAVIS_CURRENT_BRANCH" == "master" ]; then echo "onbuild"; else echo "${MAIN_TAG}-onbuild" ; fi`
-  - docker build -f Dockerfile -t $REPO:$TRAVIS_COMMIT .
-  - docker build -f Dockerfile.onbuild -t $REPO:$TRAVIS_COMMIT-onbuild .
-  - docker tag $REPO:$TRAVIS_COMMIT $REPO:$MAIN_TAG
-  - docker tag $REPO:$TRAVIS_COMMIT-onbuild $REPO:$ONBUILD_TAG
+  - export MAIN_TAG=`if [ "$TRAVIS_BRANCH" = "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - export ONBUILD_TAG=`if [ "$TRAVIS_BRANCH" = "master" ]; then echo "onbuild"; else echo "$MAIN_TAG-onbuild" ; fi`
+  - echo "Main tag: $MAIN_TAG \n Onbuild tag: $ONBUILD_TAG \n Commit (shorten): $COMMIT \n Branch: $TRAVIS_BRANCH \n\n"
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+# Build and deploy
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker build -f Dockerfile.onbuild -t $REPO:$COMMIT-onbuild .
+  - docker tag $REPO:$COMMIT $REPO:$MAIN_TAG
+  - docker tag $REPO:$COMMIT-onbuild $REPO:$ONBUILD_TAG
 
   - docker push $REPO
