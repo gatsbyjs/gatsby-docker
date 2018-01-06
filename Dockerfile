@@ -8,3 +8,4 @@ RUN chmod +x /sbin/nginx-boot && \
     rm -fR /var/cache/apk/*
 
 CMD [ "/sbin/nginx-boot" ]
+EXPOSE 80
