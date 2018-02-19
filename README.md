@@ -11,7 +11,7 @@ This image has two major tags:
 
 ## Usage
 
-1. Insert the `Dockerfile` above at the root of your project:
+1. Create a `Dockerfile`, as below, at the root of your project:
 
   ```Dockerfile
   FROM gatsbyjs/gatsby:onbuild
