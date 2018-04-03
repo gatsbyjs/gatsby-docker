@@ -34,7 +34,8 @@ This image has two major tags:
 5. Use it
 
   ```bash
-  docker run --rm myproject/website
+  docker run --rm -p 80:80 myproject/website
+  # Open your browser at http://localhost
   ```
 
 ## Configuration
