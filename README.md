@@ -59,3 +59,10 @@ Below is the complete list of available options that can be used to customize yo
 | `CACHE_PUBLIC_EXPIRATION` | `1y`                                                                                                         | Time to set for header `Expires`. See http://nginx.org/en/docs/http/ngx_http_headers_module.html#expires                                                                                                                                                                               |
 | `TRAILING_SLASH`          | `true`                                                                                                       | Specifies if paths should end with a trailing slash or not. Prevents [duplicated content](https://moz.com/learn/seo/duplicate-content) by redirecting requests to URLs ending with a slash to its non-trailing-slash equivalent if set to `true` and the other way around for `false`. |
 | `DEBUG`                   | `false`                                                                                                      | If set to `true` the configuration is being printed before the server starts.                                                                                                                                                                                                          |
+
+### Append rules for the server block in nginx config
+
+You can mount a file to `/etc/nginx/server.conf` to extend the server block in nginx config. This could be useful if you have defined client only routes in GatsbyJS. For example for client only rules on path `/client-only` the content of your mounted file should be like:
+```
+rewrite ^/client-only/([^.]*?/)$ /client-only/index.html;
+```
