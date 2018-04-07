@@ -63,6 +63,14 @@ Below is the complete list of available options that can be used to customize yo
 ### Append rules for the server block in nginx config
 
 You can mount a file to `/etc/nginx/server.conf` to extend the server block in nginx config. This could be useful if you have defined client only routes in GatsbyJS. For example for client only rules on path `/client-only` the content of your mounted file should be like:
-```
-rewrite ^/client-only/([^.]*?/)$ /client-only/index.html;
-```
+
+  ```
+  rewrite ^/client-only/([^.]*?/)$ /client-only/index.html;
+  ```
+
+Alternatively you can use a custom Dockerfile and copy the file on build:
+
+  ```Dockerfile
+  FROM gatsbyjs/gatsby:latest
+  COPY nginx-server-rules.conf /etc/nginx/server.conf
+  ```
