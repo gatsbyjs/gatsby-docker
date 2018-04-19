@@ -23,9 +23,9 @@ else
 fi
 
 if [ -f /etc/nginx/server.conf ]; then
-  ADD_SERVER_RULES=$(</etc/nginx/server.conf)
+  CUSTOM_SERVER_CONFIG=$(</etc/nginx/server.conf)
 else
-  ADD_SERVER_RULES='';
+  CUSTOM_SERVER_CONFIG=${CUSTOM_SERVER_CONFIG:-};
 fi
 
 # Build config
@@ -92,7 +92,7 @@ http {
 
     try_files \$uri \$uri/ \$uri/index.html =404;
 
-    $ADD_SERVER_RULES
+    $CUSTOM_SERVER_CONFIG
   }
 }
 
