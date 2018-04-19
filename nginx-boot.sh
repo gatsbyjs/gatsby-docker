@@ -22,6 +22,12 @@ else
   REWRITE_RULE="rewrite ^([^.]*[^/])\$ \$1/ permanent"
 fi
 
+if [ -f /etc/nginx/server.conf ]; then
+  CUSTOM_SERVER_CONFIG=$(</etc/nginx/server.conf)
+else
+  CUSTOM_SERVER_CONFIG=${CUSTOM_SERVER_CONFIG:-};
+fi
+
 # Build config
 cat <<EOF > $NGINX_CONF
 daemon              off;
@@ -85,6 +91,8 @@ http {
     $REWRITE_RULE;
 
     try_files \$uri \$uri/ \$uri/index.html =404;
+
+    $CUSTOM_SERVER_CONFIG
   }
 }
 
