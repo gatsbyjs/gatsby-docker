@@ -58,6 +58,7 @@ Below is the complete list of available options that can be used to customize yo
 | `CACHE_PUBLIC`            | `ico\|jpg\|jpeg\|png\|gif\|svg\|js\|jsx\|css\|less\|swf\|eot\|ttf\|otf\|woff\|woff2`                                        | Regular expression to specify which paths should be cachable (headers `Cache-Control` set to `public` and `Expires` set to the value of `$CACHE_PUBLIC_EXPIRATION`).                                                                                                                   |
 | `CACHE_PUBLIC_EXPIRATION` | `1y`                                                                                                         | Time to set for header `Expires`. See http://nginx.org/en/docs/http/ngx_http_headers_module.html#expires                                                                                                                                                                               |
 | `TRAILING_SLASH`          | `true`                                                                                                       | Specifies if paths should end with a trailing slash or not. Prevents [duplicated content](https://moz.com/learn/seo/duplicate-content) by redirecting requests to URLs ending with a slash to its non-trailing-slash equivalent if set to `true` and the other way around for `false`. |
+| `CUSTOM_SERVER_CONFIG`          | ` `                                                                                                       | Need to add some advanced/custom nginx config? No problem, you can inject through this environment variable. **NOTE:** would be discarded if `/etc/nginx/server.conf` is present. |
 | `DEBUG`                   | `false`                                                                                                      | If set to `true` the configuration is being printed before the server starts.                                                                                                                                                                                                          |
 
 ### Append rules for the server block in nginx config
@@ -74,3 +75,5 @@ Alternatively you can use a custom Dockerfile and copy the file on build:
   FROM gatsbyjs/gatsby:latest
   COPY nginx-server-rules.conf /etc/nginx/server.conf
   ```
+  
+**NOTE:** By adding the file `/etc/nginx/server.conf`, all the contents of the `CUSTOM_SERVER_CONFIG` environment variable will be discarded.
