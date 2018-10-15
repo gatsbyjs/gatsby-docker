@@ -1,11 +1,7 @@
-FROM alpine:edge
-MAINTAINER José Moreira <josemoreiravarzim@gmail.com>
+FROM nginx:1-alpine
 
-ADD nginx-boot.sh /sbin/nginx-boot
-
-RUN chmod +x /sbin/nginx-boot && \
-    apk --update add nginx bash && \
-    rm -fR /var/cache/apk/*
+COPY nginx-boot.sh /sbin/nginx-boot
 
 CMD [ "/sbin/nginx-boot" ]
+
 EXPOSE 80

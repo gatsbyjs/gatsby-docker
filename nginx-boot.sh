@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check for variables
 export CHARSET=${CHARSET:-utf-8}
@@ -17,19 +17,19 @@ export CACHE_PUBLIC=${CACHE_PUBLIC:-ico|jpg|jpeg|png|gif|svg|js|jsx|css|less|swf
 export CACHE_PUBLIC_EXPIRATION=${CACHE_PUBLIC_EXPIRATION:-1y}
 
 if [ "$TRAILING_SLASH" = false ]; then
-  REWRITE_RULE="rewrite ^(.+)/+\$ \$1 permanent"
+	REWRITE_RULE="rewrite ^(.+)/+\$ \$1 permanent"
 else
-  REWRITE_RULE="rewrite ^([^.]*[^/])\$ \$1/ permanent"
+	REWRITE_RULE="rewrite ^([^.]*[^/])\$ \$1/ permanent"
 fi
 
 if [ -f /etc/nginx/server.conf ]; then
-  CUSTOM_SERVER_CONFIG=$(</etc/nginx/server.conf)
+	CUSTOM_SERVER_CONFIG=$(</etc/nginx/server.conf)
 else
-  CUSTOM_SERVER_CONFIG=${CUSTOM_SERVER_CONFIG:-};
+	CUSTOM_SERVER_CONFIG=${CUSTOM_SERVER_CONFIG:-}
 fi
 
 # Build config
-cat <<EOF > $NGINX_CONF
+cat <<EOF >$NGINX_CONF
 daemon              off;
 worker_processes    1;
 user                root;
@@ -98,9 +98,6 @@ http {
 
 EOF
 
-[ "" != "$DEBUG" ] && cat $NGINX_CONF;
-
-mkdir -p /run/nginx/
-chown -R root:root /var/lib/nginx
+[ "" != "$DEBUG" ] && cat $NGINX_CONF
 
 exec nginx -c $NGINX_CONF
