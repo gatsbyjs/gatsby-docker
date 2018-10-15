@@ -11,21 +11,24 @@ if [ ! -f "./package.json" ]; then
 	echo "Initializing Gatsby..."
 	gatsby new $GATSBY_WORKDIR
 	# Ensure packages are locked and up to date
-	npm install
+	yarn
 fi
 
 # Decide what to do
-if [ "$1" == "develop" ]; then
+if [ "$CMD" == "develop" ]; then
 	rm -rf ./public
 
 	shift
 	exec gatsby develop --host 0.0.0.0 --port $GATSBY_PORT $@
-elif [ "$1" == "build" ]; then
+elif [ "$CMD" == "build" ]; then
 	rm -rf ./public
 
 	shift
 	exec gatsby build $@
-elif [ "$1" == "stage" ]; then
+elif [ "$CMD" == "serve" ]; then
+	shift
+	exec gatsby serve --host 0.0.0.0 --port $GATSBY_PORT $@
+elif [ "$CMD" == "stage" ]; then
 	rm -rf ./public
 
 	shift
@@ -33,4 +36,5 @@ elif [ "$1" == "stage" ]; then
 	exec gatsby serve --host 0.0.0.0 --port $GATSBY_PORT $@
 fi
 
-exec $@
+# Or just exec
+exec gatsby $@
