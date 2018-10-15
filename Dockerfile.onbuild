@@ -1,4 +1,4 @@
-FROM gatsbyjs/gatsby
+FROM gatsbyjs/gatsby:latest
 
 ONBUILD COPY public/ /pub
 
