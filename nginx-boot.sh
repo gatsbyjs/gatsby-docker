@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Check for variables
 export CHARSET=${CHARSET:-utf-8}
