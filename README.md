@@ -1,4 +1,5 @@
 [![Travis CI Build Status](https://travis-ci.org/gatsbyjs/gatsby-docker.svg?branch=master)](https://travis-ci.org/gatsbyjs/gatsby-docker)
+[![MIT licensed](https://img.shields.io/dub/l/vibe-d.svg?style=flat)](https://github.com/gatsbyjs/gatsby-docker/blob/master/LICENSE)
 
 # gatsbyjs/gatsby
 Docker image that builds hosts a Gatsby site
