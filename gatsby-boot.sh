@@ -36,5 +36,5 @@ elif [ "$1" == "stage" ]; then
 	exec gatsby serve --host 0.0.0.0 --port $GATSBY_PORT $@
 fi
 
-# Or just exec
-exec gatsby $@
+# Or just go through
+exec $@
