@@ -15,25 +15,25 @@ if [ ! -f "./package.json" ]; then
 fi
 
 # Decide what to do
-if [ "$1" == "develop" ]; then
+if [ "$1" = "develop" ]; then
 	rm -rf ./public
 
 	shift
-	exec gatsby develop --host 0.0.0.0 --port $GATSBY_PORT $@
-elif [ "$1" == "build" ]; then
+	exec gatsby develop --host 0.0.0.0 --port "$GATSBY_PORT" $@
+elif [ "$1" = "build" ]; then
 	rm -rf ./public
 
 	shift
 	exec gatsby build $@
-elif [ "$1" == "serve" ]; then
+elif [ "$1" = "serve" ]; then
 	shift
-	exec gatsby serve --host 0.0.0.0 --port $GATSBY_PORT $@
-elif [ "$1" == "stage" ]; then
+	exec gatsby serve --host 0.0.0.0 --port "$GATSBY_PORT" $@
+elif [ "$1" = "stage" ]; then
 	rm -rf ./public
 
 	shift
 	gatsby build
-	exec gatsby serve --host 0.0.0.0 --port $GATSBY_PORT $@
+	exec gatsby serve --host 0.0.0.0 --port "$GATSBY_PORT" $@
 fi
 
 # Or just go through
