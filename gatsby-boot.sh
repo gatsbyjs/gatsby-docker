@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-GATSBY_WORKDIR=${GATSBY_WORKDIR:-/gatsby}
+GATSBY_WORKDIR="/site"
 GATSBY_PORT=${GATSBY_PORT:-8000}
 
 cd "$GATSBY_WORKDIR"
@@ -9,26 +9,26 @@ cd "$GATSBY_WORKDIR"
 # Initialize Gatsby if no manifest found
 if [ ! -f "./package.json" ]; then
 	echo "Initializing Gatsby..."
-	gatsby new $GATSBY_WORKDIR
+	gatsby new .
 	# Ensure packages are locked and up to date
 	yarn
 fi
 
 # Decide what to do
-if [ "$CMD" == "develop" ]; then
+if [ "$1" == "develop" ]; then
 	rm -rf ./public
 
 	shift
 	exec gatsby develop --host 0.0.0.0 --port $GATSBY_PORT $@
-elif [ "$CMD" == "build" ]; then
+elif [ "$1" == "build" ]; then
 	rm -rf ./public
 
 	shift
 	exec gatsby build $@
-elif [ "$CMD" == "serve" ]; then
+elif [ "$1" == "serve" ]; then
 	shift
 	exec gatsby serve --host 0.0.0.0 --port $GATSBY_PORT $@
-elif [ "$CMD" == "stage" ]; then
+elif [ "$1" == "stage" ]; then
 	rm -rf ./public
 
 	shift

@@ -1,29 +1,23 @@
 FROM node:10-alpine
 
-WORKDIR /gatsby
-
 ARG GATSBY_VERSION=^2.0.0
-ARG VIPS_VERSION=8.6.3-r0
 
-# Install dev dependencies
 RUN set -x \
-  && apk add --no-cache vips-dev=${VIPS_VERSION} \
-  --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+# Install dev dependencies
   && apk add --no-cache \
-  fftw-dev \
-  g++ \
   git \
+  g++ \
   make \
   python2 \
   binutils \
-  git
-
 # Install gatsby cli and cleanup
-RUN set -x \
   && npm install --global gatsby@${GATSBY_VERSION} \
-  --no-optional gatsby@${GATSBY_VERSION} \
   && npm cache clean --force
 
 COPY ./gatsby-boot.sh /sbin/gatsby-boot
+RUN chmod +x /sbin/gatsby-boot
+
+WORKDIR /site
+VOLUME /site
 
 ENTRYPOINT ["/sbin/gatsby-boot"]
