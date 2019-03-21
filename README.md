@@ -14,7 +14,10 @@ This image has two major tags:
 1. Build your project's public assets with `gatsby build`
 1. Create a `Dockerfile`, as below, at the root of your project:
     ```dockerfile
-    FROM gatsbyjs/gatsby:onbuild
+    FROM gatsbyjs/gatsby:onbuild as build
+
+    FROM gatsbyjs/gatsby
+    COPY --from=build /pub /pub
     ```
 1. Build your project's docker image:
     ```bash
@@ -26,7 +29,7 @@ This image has two major tags:
     ```
 1. Use it
     ```bash
-    docker run --rm -p 80:80 myproject/website
+    docker run --rm -p 8080:80 myproject/website
     # Open your browser at http://localhost
     ```
 
