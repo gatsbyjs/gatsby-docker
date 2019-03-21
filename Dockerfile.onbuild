@@ -1,4 +1,6 @@
-FROM gatsbyjs/gatsby:latest
+FROM node:10.15.3-stretch
 MAINTAINER José Moreira <josemoreiravarzim@gmail.com>
-
-ONBUILD ADD public/ /pub
+RUN npm install -g gatsby-cli@2.4.17
+ONBUILD WORKDIR /app
+ONBUILD RUN gatsby build
+ONBUILD ADD . .
