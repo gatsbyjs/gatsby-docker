@@ -1,0 +1,23 @@
+FROM node:10-alpine
+
+ARG GATSBY_VERSION=^2.0.0
+
+RUN set -x \
+# Install dev dependencies
+  && apk add --no-cache \
+  git \
+  g++ \
+  make \
+  python2 \
+  binutils \
+# Install gatsby cli and cleanup
+  && npm install --global gatsby@${GATSBY_VERSION} \
+  && npm cache clean --force
+
+COPY ./gatsby-boot.sh /sbin/gatsby-boot
+RUN chmod +x /sbin/gatsby-boot
+
+WORKDIR /site
+VOLUME /site
+
+ENTRYPOINT ["/sbin/gatsby-boot"]

@@ -7,6 +7,7 @@ script:
 # Lint
 - docker run -it --rm -v "$PWD/Dockerfile:/Dockerfile:ro" redcoolbeans/dockerlint
 - docker run -it --rm -v "$PWD/Dockerfile.onbuild:/Dockerfile:ro" redcoolbeans/dockerlint
+- docker run -it --rm -v "$PWD/Dockerfile.cli:/Dockerfile:ro" redcoolbeans/dockerlint
 
 env:
   global:
@@ -17,14 +18,17 @@ after_success:
   - export REPO=gatsbyjs/gatsby
   - export MAIN_TAG=`if [ "$TRAVIS_BRANCH" = "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - export ONBUILD_TAG=`if [ "$TRAVIS_BRANCH" = "master" ]; then echo "onbuild"; else echo "$MAIN_TAG-onbuild" ; fi`
-  - echo "Main tag - $MAIN_TAG | Onbuild - $ONBUILD_TAG | Commit (shorten) - $COMMIT | Branch - $TRAVIS_BRANCH"
+  - export CLI_TAG=`if [ "$TRAVIS_BRANCH" = "master" ]; then echo "cli"; else echo "$MAIN_TAG-cli" ; fi`
+  - echo "Main - $MAIN_TAG | Onbuild - $ONBUILD_TAG | CLI - $CLI_TAG | Commit (shorten) - $COMMIT | Branch - $TRAVIS_BRANCH"
   - 
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
 # Build and deploy
   - docker build -f Dockerfile -t $REPO:$COMMIT .
   - cat Dockerfile.onbuild | sed "s/gatsbyjs/gatsby:latest/$REPO:$COMMIT/" | docker build -t $REPO:$COMMIT-onbuild -
+  - docker build -t $REPO:$COMMIT-cli -f Dockerfile.cli .
   - docker tag $REPO:$COMMIT $REPO:$MAIN_TAG
   - docker tag $REPO:$COMMIT-onbuild $REPO:$ONBUILD_TAG
+  - docker tag $REPO:$COMMIT-cli $REPO:$CLI_TAG
 
   - docker push $REPO
