@@ -18,10 +18,10 @@ export CACHE_PUBLIC_EXPIRATION=${CACHE_PUBLIC_EXPIRATION:-1y}
 
 if [ "$TRAILING_SLASH" = false ]; then
   REWRITE_RULE="rewrite ^(.+)/+\$ \$1 permanent"
-  TRY_FILES="try_files \$uri \$uri/index.html =404;"
+  TRY_FILES="try_files \$uri \$uri/index.html =404"
 else
   REWRITE_RULE="rewrite ^([^.]*[^/])\$ \$1/ permanent"
-  TRY_FILES="try_files \$uri \$uri/ \$uri/index.html =404;"
+  TRY_FILES="try_files \$uri \$uri/ \$uri/index.html =404"
 fi
 
 if [ -f /etc/nginx/server.conf ]; then
@@ -92,7 +92,7 @@ http {
 
     $REWRITE_RULE;
 
-    $TRY_FILES
+    $TRY_FILES;
 
     $CUSTOM_SERVER_CONFIG
   }
