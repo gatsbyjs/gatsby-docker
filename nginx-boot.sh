@@ -70,6 +70,7 @@ http {
   gzip_comp_level     $GZIP_LEVEL;
 
   access_log         /dev/stdout;
+  error_log          /dev/stderr error;
 
   server {
     listen $HTTP_PORT;
