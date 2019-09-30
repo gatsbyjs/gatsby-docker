@@ -23,7 +23,7 @@ after_success:
 
 # Build and deploy
   - docker build -f Dockerfile -t $REPO:$COMMIT .
-  - cat Dockerfile.onbuild | sed "s/gatsbyjs/gatsby:latest/$REPO:$COMMIT/" | docker build -t $REPO:$COMMIT-onbuild -
+  - cat Dockerfile.onbuild | sed "s#gatsbyjs/gatsby:latest#$REPO:$COMMIT#g" | docker build -t $REPO:$COMMIT-onbuild -
   - docker tag $REPO:$COMMIT $REPO:$MAIN_TAG
   - docker tag $REPO:$COMMIT-onbuild $REPO:$ONBUILD_TAG
 
