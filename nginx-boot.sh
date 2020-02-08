@@ -24,6 +24,17 @@ else
   TRY_FILES="try_files \$uri \$uri/ \$uri/index.html =404"
 fi
 
+if [ "$DISABLE_FILE_CACHE" != true ]; then
+  read -r -d '' FILE_CACHE <<'EOF'
+
+  ## Cache open FD
+  open_file_cache max=10000 inactive=3600s;
+  open_file_cache_valid 7200s;
+  open_file_cache_min_uses 2;
+
+EOF
+fi
+
 if [ -f /etc/nginx/server.conf ]; then
   CUSTOM_SERVER_CONFIG=$(</etc/nginx/server.conf)
 else
@@ -56,10 +67,7 @@ http {
   client_header_buffer_size 16k;
   large_client_header_buffers 4 16k;
 
-  ## Cache open FD
-  open_file_cache max=10000 inactive=3600s;
-  open_file_cache_valid 7200s;
-  open_file_cache_min_uses 2;
+  $FILE_CACHE
 
   ## Gzipping is an easy way to reduce page weight
   gzip                on;
