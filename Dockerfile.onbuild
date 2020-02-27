@@ -1,6 +1,6 @@
-FROM node:10.15.3-stretch
+FROM node:10-stretch
 MAINTAINER José Moreira <josemoreiravarzim@gmail.com>
-RUN yarn global add gatsby-cli@2.4.17
+RUN yarn global add gatsby-cli
 ONBUILD WORKDIR /app
 ONBUILD ADD . ./
 ONBUILD RUN yarn

@@ -20,7 +20,7 @@ This image has two major tags:
     COPY --from=build /app/public /pub
     ```
     _.dockerignore_
-    ```dockerfile
+    ```ignore
     .cache/
     node_modules/
     public/
@@ -36,8 +36,8 @@ This image has two major tags:
     ```
 1. Use it
     ```bash
-    docker run --rm -p 8080:80 myproject/website
-    # Open your browser at http://localhost:8080
+    docker run --rm -p 80:80 myproject/website
+    # Open your browser at http://localhost
     ```
 
 ## Configuration
