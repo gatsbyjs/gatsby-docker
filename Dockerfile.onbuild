@@ -1,7 +1,0 @@
-FROM node:12-buster
-MAINTAINER José Moreira <josemoreiravarzim@gmail.com>
-RUN yarn global add gatsby-cli
-ONBUILD WORKDIR /app
-ONBUILD ADD . ./
-ONBUILD RUN yarn
-ONBUILD RUN gatsby build

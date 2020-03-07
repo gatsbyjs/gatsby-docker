@@ -1,11 +1,11 @@
-FROM alpine:edge
-MAINTAINER José Moreira <josemoreiravarzim@gmail.com>
+FROM node:alpine
+LABEL maintainer="timo.traulsen@gmail.com"
 
-ADD nginx-boot.sh /sbin/nginx-boot
+RUN apk add --no-cache make gcc g++ python bash
+RUN yarn global add gatsby
 
-RUN chmod +x /sbin/nginx-boot && \
-    apk --update add nginx bash && \
-    rm -fR /var/cache/apk/*
+WORKDIR /app
 
-CMD [ "/sbin/nginx-boot" ]
-EXPOSE 80
+ADD package.json .
+
+RUN yarn install
