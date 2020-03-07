@@ -7,8 +7,8 @@
     "dev": "nodemon --legacy-watch --watch gatsby-config.js --watch gatsby-node.js --watch package.json --exec 'gatsby develop --host 0.0.0.0'",
     "eslint": "eslint . --ignore-path .gitignore --ext .js,.jsx",
     "format": "prettier --ignore-path .gitignore --write '**/*.js'",
-    "lint": "npm run eslint",
-    "lint-ci": "npm run lint"
+    "lint": "yarn run eslint",
+    "lint-ci": "yarn run lint"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.1",
@@ -17,6 +17,7 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
+    "gatsby": "^2.19.32",
     "gatsby-cli": "^2.10.2",
     "gatsby-plugin-react-helmet": "^3.1.23",
     "gatsby-plugin-sharp": "^2.4.7",
