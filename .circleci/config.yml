@@ -35,3 +35,20 @@ workflows:
           filters:
             branches:
               only: master
+  weekly:
+    triggers:
+      - schedule:
+          cron: "0 5 * * 0"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
+      - publish-latest:
+          context: dockerhub
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
