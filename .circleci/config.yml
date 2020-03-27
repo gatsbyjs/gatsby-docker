@@ -15,7 +15,4 @@
       version: 2
       build-master:
         jobs:
-          - build:
-              filters:
-                branches:
-                  only: master
+          - build
