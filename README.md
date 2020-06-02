@@ -42,7 +42,7 @@ This image has two major tags:
 
 The way Nginx behaves can be configured using environment variables.
 
-_Please refer the docker run command options for the --env-file flag where you can specify all required environment variables in a single file. This will save you from writing a potentially long docker run command. Alternatively you can use docker-compose._
+_Please refer to the docker run command options for the --env-file flag where you can specify all required environment variables in a single file. This will save you from writing a potentially long docker run command. Alternatively you can use docker-compose._
 
 Below is the complete list of available options that can be used to customize your Nginx configuration:
 
@@ -64,7 +64,7 @@ Below is the complete list of available options that can be used to customize yo
 
 ### Append rules for the server block in nginx config
 
-You can mount a file to `/etc/nginx/server.conf` to extend the server block in nginx config. This could be useful if you have defined client only routes in GatsbyJS. For example for client only rules on path `/client-only` the content of your mounted file should be like:
+You can mount a file to `/etc/nginx/server.conf` to extend the server block in nginx config. This could be useful if you have defined client-only routes in GatsbyJS. For example for client only rules on path `/client-only` the content of your mounted file should be like:
 
   ```
   rewrite ^/client-only/([^.]*?/)$ /client-only/index.html;
