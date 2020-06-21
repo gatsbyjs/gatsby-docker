@@ -58,7 +58,7 @@ http {
   keepalive_timeout  15;
   autoindex          off;
   server_tokens      off;
-  port_in_redirect   on;
+  port_in_redirect   off;
   absolute_redirect  off;
   sendfile           off;
   tcp_nopush         on;
