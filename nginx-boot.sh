@@ -59,6 +59,7 @@ http {
   autoindex          off;
   server_tokens      off;
   port_in_redirect   off;
+  absolute_redirect  off;
   sendfile           off;
   tcp_nopush         on;
   tcp_nodelay        on;
