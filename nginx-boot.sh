@@ -41,6 +41,18 @@ else
   CUSTOM_SERVER_CONFIG=${CUSTOM_SERVER_CONFIG:-};
 fi
 
+if [ -f /etc/nginx/location_cache_ignore.conf ]; then
+  CUSTOM_LOCATION_CACHE_IGNORE=$(</etc/nginx/location_cache_ignore.conf)
+else
+  CUSTOM_LOCATION_CACHE_IGNORE=${CUSTOM_LOCATION_CACHE_IGNORE:-};
+fi
+
+if [ -f /etc/nginx/location_cache_public.conf ]; then
+  CUSTOM_LOCATION_CACHE_PUBLIC=$(</etc/nginx/location_cache_public.conf)
+else
+  CUSTOM_LOCATION_CACHE_PUBLIC=${CUSTOM_LOCATION_CACHE_PUBLIC:-};
+fi
+
 # Build config
 cat <<EOF > $NGINX_CONF
 daemon              off;
@@ -92,10 +104,12 @@ http {
     error_page 404 /404.html;
 
     location ~* \.($CACHE_IGNORE)$ {
+      $CUSTOM_LOCATION_CACHE_IGNORE
       add_header Cache-Control "no-store";
       expires    off;
     }
     location ~* \.($CACHE_PUBLIC)$ {
+      $CUSTOM_LOCATION_CACHE_PUBLIC
       add_header Cache-Control "public";
       expires +$CACHE_PUBLIC_EXPIRATION;
     }
