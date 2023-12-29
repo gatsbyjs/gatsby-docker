@@ -1,4 +1,4 @@
-# gatsbyjs/gatsby-docker     [![Travis CI Build Status](https://travis-ci.org/gatsbyjs/gatsby-docker.svg?branch=master)](https://travis-ci.org/gatsbyjs/gatsby-docker)
+# gatsbyjs/gatsby-docker
 Docker image that builds and hosts a Gatsby site.
 
 *Note: this is a community maintained project and doesn't yet have support for Gatsby v3 and beyond features like Functions, SSR, and DSG*
