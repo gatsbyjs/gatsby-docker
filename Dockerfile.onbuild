@@ -1,5 +1,5 @@
-FROM node:12-buster
-MAINTAINER José Moreira <josemoreiravarzim@gmail.com>
+FROM node:20-buster
+
 RUN yarn global add gatsby-cli
 ONBUILD WORKDIR /app
 ONBUILD ADD . ./
