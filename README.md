@@ -1,3 +1,6 @@
+NOTE: The original project seems not active, so I forked the repo and built own Images.
+
+
 # gatsbyjs/gatsby-docker
 Docker image that builds and hosts a Gatsby site.
 
@@ -9,14 +12,19 @@ This image has two major tags:
 
 2. `onbuild` - builds your project and creates a new docker image
 
+## Images
+
+https://hub.docker.com/repository/docker/wowbro/gatsbyjs-docker/general
+
+
 ## Usage
 
 1. Create at the root of your project a `Dockerfile` and `.dockerignore`, as below:
     _Dockerfile_
     ```dockerfile
-    FROM gatsbyjs/gatsby:onbuild as build
+    FROM wowbro/gatsbyjs-docker:onbuild as build
 
-    FROM gatsbyjs/gatsby
+    FROM wowbro/gatsbyjs-docker:latest
     COPY --from=build /app/public /pub
     ```
     _.dockerignore_
