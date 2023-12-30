@@ -13,8 +13,10 @@ export GZIP_TYPES=${GZIP_TYPES:-application/javascript application/x-javascript 
 export GZIP_LEVEL=${GZIP_LEVEL:-6}
 
 export CACHE_IGNORE=${CACHE_IGNORE:-html}
-export CACHE_PUBLIC=${CACHE_PUBLIC:-ico|jpg|jpeg|png|gif|svg|js|jsx|css|less|swf|eot|ttf|otf|woff|woff2}
+export CACHE_PUBLIC=${CACHE_PUBLIC:-avif|gif|ico|jpg|jpeg|png|svg|webp|js|jsx|css|less|swf|eot|ttf|otf|woff|woff2}
 export CACHE_PUBLIC_EXPIRATION=${CACHE_PUBLIC_EXPIRATION:-1y}
+
+export CLIENT_MAX_BODY_SIZE=${CLIENT_MAX_BODY_SIZE:-64k}
 
 if [ "$TRAILING_SLASH" = false ]; then
   REWRITE_RULE="rewrite ^(.+)/+\$ \$1 permanent"
@@ -64,7 +66,7 @@ http {
   tcp_nopush         on;
   tcp_nodelay        on;
 
-  client_max_body_size 64k;
+  client_max_body_size $CLIENT_MAX_BODY_SIZE;
   client_header_buffer_size 16k;
   large_client_header_buffers 4 16k;
 

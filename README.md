@@ -1,4 +1,7 @@
-# gatsbyjs/gatsby-docker     [![Travis CI Build Status](https://travis-ci.org/gatsbyjs/gatsby-docker.svg?branch=master)](https://travis-ci.org/gatsbyjs/gatsby-docker)
+NOTE: The original project seems not active, so I forked the repo and built own Images.
+
+
+# gatsbyjs/gatsby-docker
 Docker image that builds and hosts a Gatsby site.
 
 *Note: this is a community maintained project and doesn't yet have support for Gatsby v3 and beyond features like Functions, SSR, and DSG*
@@ -9,14 +12,19 @@ This image has two major tags:
 
 2. `onbuild` - builds your project and creates a new docker image
 
+## Images
+
+https://hub.docker.com/repository/docker/wowbro/gatsbyjs-docker/general
+
+
 ## Usage
 
 1. Create at the root of your project a `Dockerfile` and `.dockerignore`, as below:
     _Dockerfile_
     ```dockerfile
-    FROM gatsbyjs/gatsby:onbuild as build
+    FROM wowbro/gatsbyjs-docker:onbuild as build
 
-    FROM gatsbyjs/gatsby
+    FROM wowbro/gatsbyjs-docker:latest
     COPY --from=build /app/public /pub
     ```
     _.dockerignore_
@@ -51,7 +59,7 @@ Below is the complete list of available options that can be used to customize yo
 | Environment variable      | Default                                                                                                      | Description                                                                                                                                                                                                                                                                            |
 |---------------------------|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `CACHE_IGNORE`            | `html`                                                                                                       | Regular expression to specify which paths shouldn't be cacheable (header `Cache-Control` set to `no-store`).                                                                                                                                                                            |
-| `CACHE_PUBLIC`            | `ico\|jpg\|jpeg\|png\|gif\|svg\|js\|jsx\|css\|less\|swf\|eot\|ttf\|otf\|woff\|woff2`                                        | Regular expression to specify which paths should be cacheable (headers `Cache-Control` set to `public` and `Expires` set to the value of `$CACHE_PUBLIC_EXPIRATION`).                                                                                                                   |
+| `CACHE_PUBLIC`            | `avif\|gif\|ico\|jpg\|jpeg\|png\|svg\|webp\|js\|jsx\|css\|less\|swf\|eot\|ttf\|otf\|woff\|woff2`                                        | Regular expression to specify which paths should be cacheable (headers `Cache-Control` set to `public` and `Expires` set to the value of `$CACHE_PUBLIC_EXPIRATION`).                                                                                                                   |
 | `CACHE_PUBLIC_EXPIRATION` | `1y`                                                                                                         | Time to set for header `Expires`. See http://nginx.org/en/docs/http/ngx_http_headers_module.html#expires                                                                                                                                                                               |
 | `CHARSET`                 | `utf-8`                                                                                                      | Charset being used in `Content-Type` response header field. See http://nginx.org/en/docs/http/ngx_http_charset_module.html                                                                                                                                                             |
 | `CUSTOM_SERVER_CONFIG`          | ` `                                                                                                       | Need to add some advanced/custom nginx config? No problem, you can inject through this environment variable. **NOTE:** would be discarded if `/etc/nginx/server.conf` is present. |
@@ -63,6 +71,8 @@ Below is the complete list of available options that can be used to customize yo
 | `TRAILING_SLASH`          | `true`                                                                                                       | Specifies if paths should end with a trailing slash or not. Prevents [duplicated content](https://moz.com/learn/seo/duplicate-content) by redirecting requests to URLs ending with a slash to its non-trailing-slash equivalent if set to `true` and the other way around for `false`. |
 | `WORKER_CONNECTIONS`      | `1024`                                                                                                       | The maximum number of simultaneous connections that can be opened by a worker process. See http://nginx.org/en/docs/ngx_core_module.html#worker_connections                                                                                                                            |
 | `DISABLE_FILE_CACHE`      | `false`                                                                                                      | Disables nginx's open file cache for when used with a network storage (NFS, SMB, etc)                                                                                                                                                                                                  |
+| `CLIENT_MAX_BODY_SIZE`    | `64k`                                                                                                      | Overriding client_max_body_size                                                                                                                                                                                                  |
+
 
 ### Append rules for the server block in nginx config
 
